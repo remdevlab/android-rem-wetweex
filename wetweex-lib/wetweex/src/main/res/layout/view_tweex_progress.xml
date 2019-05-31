@@ -1,39 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-       xmlns:tools="http://schemas.android.com/tools"
-       android:id="@+id/root"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       tools:parentTag="android.widget.FrameLayout">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:parentTag="android.widget.FrameLayout">
 
     <LinearLayout
-            android:id="@+id/message_wrapper"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:layout_margin="20dp"
-            android:background="@drawable/alert_dialog_bg">
+        android:id="@+id/message_wrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:layout_margin="20dp"
+        android:background="@drawable/alert_dialog_bg">
 
         <ProgressBar
-                android:id="@+id/progress_with_caption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="11dp"/>
+            android:id="@+id/progress_with_caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="11dp"/>
 
         <TextView
-                android:id="@+id/message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                tools:text="Please wait"/>
+            android:id="@+id/message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="24dp"
+            tools:text="Please wait asdas das das d asd asda"/>
     </LinearLayout>
 
     <ProgressBar
-            android:id="@+id/secondary_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone"/>
+        android:id="@+id/secondary_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 
 </merge>
