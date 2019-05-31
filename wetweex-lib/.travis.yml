@@ -1,0 +1,33 @@
+language: android
+android:
+  components:
+  - tools
+  - platform-tools
+  - build-tools-25.0.2
+  - extra-android-m2repository
+  - android-25
+before_install:
+ - yes | sdkmanager "platforms;android-26"
+ - yes | sdkmanager "platforms;android-27"
+ - yes | sdkmanager "platforms;android-28"  
+jdk:
+- oraclejdk8
+script:
+  - "./gradlew uploadArchives"
+after_success:
+- ".buildscript/deploy_snapshot.sh"
+branches:
+  except:
+  - gh-pages
+notifications:
+  email: false
+sudo: false
+cache:
+  directories:
+  - "$HOME/.gradle"
+  - "$HOME/.m2"
+env:
+  global:
+    - secure: oTRD70hXEwRXRqzmtQqzz0huApMfy6pi6OYy0iRN9w8LRcF6E668FmhflLNx7tM51kVFSHfQCy7RSr2NkxLDQIYqntuww/qboQIgyD8bZKxogO0xHamCA5YPfpNekmtGB6oBuOUSUTS/9alXBGAXDZrLIJEBINBVDoEp/5B0biorcA/zv4AWfS5JawHZrGmOFQlYLmP97PW1HozqxPMSH80Eg1LnxmlDD6YNxSPJCVS8N16nP2sgR0DL85cuMbpkvfwQOwssWzqSMSVC2EOEMWE1PdZYHoqjxEVfLQKUodJXOHlY4e1AYdCrFQhP7Fyyc9jCmMVwjrvkW5UliQcj1vnsLmFjH2PIb5tuJDnrur37luzPyl89v3gYfSCWDlzLjHVMu/CkR9klXtnsvZsH+Vp1Welcp3WtYj0Xvo9NqJphUEk3s4KGpS1cRDBNaFnT4qXL7Z7r4JEbLF6mVM8LVJJE65iAUJ85Lz90Qijad8fZHfXL6jfwY8TDSLjp8tzEYs7itEBbEj8FKMFfIdm9oDB2Bov1mk2/n/4YeyRSTZk4K0M7EI7smmTNvSD628+V8o2SpwveCq5PQ1FXef83hfeOlfUwPsIxR5sk9Aq/C3Nhu3O8buMAfxBqgdsaw0kc5wkBwDZe40u+YywyGwI/DxyqNPwtyOmXfKTIq9LByV4=
+    - secure: fnT2KmTJ3Kjx5EhPpZ56hd1mjtn7LqFkatCT/miJrKnoXkAB9aoS9mqn7HDxHH555g9Nvf9M1g9A45VuV1amAtlZjkITEQiiwq7nRwhLL7oUdPZefvIucbrc2o/nCk4ElID0pW99VW2dbUZmbSw9b6Z0t24QKRHqVpnvVd7QFMgYuxzXKtW39wPNHnSKU1ykxb+SHaKspGi/2wbWumARcHu/RHKGWdtCNDdZ8y8YokOl4HW5bv4i1oSsdZSgSPJspNrN7N45VxCgXrI8jxDJiUchGBkXUAlQoWo5WIjBn7ZNE24d5A+EkyvkgIBhStOucvYgqJkJaDvtGcWj42ZVKowUT5kMeL5fqpz3y813rCJEP3n7T4n6Pkh2lrVY1lh+zYyltr1oFkwf0leGyIcxbzCHo9NBCvf1unAM8aEH0gTC7Doymq76CmUH+Jcn6Pc6/rE670MOZWu371AyRTFJLEHzQxHiO+6Xmp+n/Sa2XfNVUAVAtAauApUqg0cWe9XSNXK6ncpuyzOEjt3HIzmnxhnmBURuHUucMnL6iNSm7NqsVfb9Qb98YvJkQBhU3rD9vzeqopnfPdkeOyLz7agGgKTLWFxUIqIVPjccr/RCLOTJTwfELAmvuOoob9bzLode6cBsF1v3xW3ZPKOQ8KwHnOpiLflXOf0z9iD/n9HGJP8=
+
