@@ -13,7 +13,7 @@ before_install:
 jdk:
 - oraclejdk8
 script:
-  - "./gradlew uploadArchives"
+  - "cd wetweex-lib; ./gradlew uploadArchives"
 after_success:
 - ".buildscript/deploy_snapshot.sh"
 branches:
