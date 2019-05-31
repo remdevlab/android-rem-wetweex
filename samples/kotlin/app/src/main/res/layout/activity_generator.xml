@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+        <TextView
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+    </ScrollView>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Время генерации (секунд):"/>
+
+        <EditText
+                android:id="@+id/generation_time"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:inputType="number"
+                android:text="5"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <Button
+                android:id="@+id/generate_button_c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Создать текст (cancelalble)"/>
+
+        <Button
+                android:id="@+id/generate_button_nc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Создать текст (non-cancelalble)"/>
+
+        <Button
+                android:id="@+id/generate_button_cr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Создать текст (crucial)"/>
+
+        <Button
+                android:id="@+id/cancel_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cancel"/>
+
+    </LinearLayout>
+
+</LinearLayout>
