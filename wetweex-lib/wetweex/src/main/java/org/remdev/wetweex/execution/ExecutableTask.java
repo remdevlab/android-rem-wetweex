@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.arch.core.util.Function;
 
+import org.remdev.wetweex.utils.SignalLatch;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -203,7 +205,7 @@ public class ExecutableTask<R> {
     }
 
     public void await() throws InterruptedException {
-        CountDownLatch latch = new CountDownLatch(1);
+        CountDownLatch latch = new SignalLatch();
         waiters.add(latch);
         latch.await();
     }

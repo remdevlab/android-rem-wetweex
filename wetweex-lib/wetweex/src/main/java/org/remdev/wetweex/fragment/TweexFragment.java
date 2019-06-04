@@ -8,9 +8,9 @@ import androidx.fragment.app.FragmentActivity;
 import org.remdev.wetweex.activity.TweexActivity;
 import org.remdev.wetweex.component.Coordinator;
 import org.remdev.wetweex.component.CoordinatorsContainer;
-import org.remdev.wetweex.utils.Objects;
 import org.remdev.wetweex.viewmodel.TweexViewModel;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public abstract class TweexFragment<T extends TweexViewModel, C extends Coordinator<T>> extends Fragment {
