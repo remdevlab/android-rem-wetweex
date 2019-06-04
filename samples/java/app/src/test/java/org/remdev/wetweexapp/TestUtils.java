@@ -7,6 +7,7 @@ import org.mockito.Mockito;
 import org.remdev.wetweex.component.Coordinator;
 import org.remdev.wetweex.live.TweexMutableLiveData;
 import org.remdev.wetweex.model.LoadProgressInfo;
+import org.remdev.wetweex.utils.SignalLatch;
 import org.remdev.wetweex.viewmodel.TweexProgressViewModel;
 import org.remdev.wetweex.viewmodel.TweexViewModel;
 
@@ -15,7 +16,7 @@ import java.util.concurrent.CountDownLatch;
 public class TestUtils {
 
     public static <T extends TweexViewModel> CountDownLatch waitCoordinatorLatch(Coordinator<T> coordinator) {
-        final CountDownLatch latch = new CountDownLatch(1);
+        final CountDownLatch latch = new SignalLatch();
         coordinator.addTasksCompletedListener(latch::countDown);
         return latch;
     }
@@ -46,7 +47,7 @@ public class TestUtils {
 
             @Override
             public void setOrPost(LoadProgressInfo loadProgressInfo) {
-                this.data = data;
+                this.data = loadProgressInfo;
             }
 
             @Override
