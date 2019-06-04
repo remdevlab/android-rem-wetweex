@@ -29,10 +29,10 @@ android {
 
 dependencies {
 
-    implementation project(':wetweex-release')
-
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation 'org.remdev.android:wetweex:0.0.1-SNAPSHOT'
 
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha05'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
