@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -19,6 +20,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ResultLiveData<T> extends AnyThreadMutableLiveData<T> {
 
     private static final ValuePacket noValue = new ValuePacket<>(null);
+    private final AtomicLong dataVersion = new AtomicLong(0);
 
     private Lock observersLock = new ReentrantLock();
     private Set<Observer<? super T>> observersSet = new HashSet<>();
@@ -73,7 +75,10 @@ public class ResultLiveData<T> extends AnyThreadMutableLiveData<T> {
 
     @Override
     final public void setValue(T value) {
-        source.setValue(new ValuePacket<>(value));
+        withLock(() -> {
+            dataVersion.incrementAndGet();
+            source.setValue(new ValuePacket<>(value));
+        });
     }
 
     public void reset() {
@@ -106,9 +111,11 @@ public class ResultLiveData<T> extends AnyThreadMutableLiveData<T> {
 
     private final class WrappingObserver implements Observer<ValuePacket<T>>  {
 
+        private long lastObservedVersion = 0;
+
         @Override
         public void onChanged(ValuePacket<T> valuePacket) {
-            if (valuePacket == noValue) {
+            if (valuePacket == noValue || lastObservedVersion == dataVersion.get()) {
                 return;
             }
             try {
@@ -116,7 +123,8 @@ public class ResultLiveData<T> extends AnyThreadMutableLiveData<T> {
                 for (Observer<? super T> observer : observersSet) {
                     observer.onChanged(valuePacket.val);
                 }
-                source.setOrPost(noValue);
+//                source.setOrPost(noValue);
+                lastObservedVersion = dataVersion.get();
             } finally {
                 observersLock.unlock();
             }
