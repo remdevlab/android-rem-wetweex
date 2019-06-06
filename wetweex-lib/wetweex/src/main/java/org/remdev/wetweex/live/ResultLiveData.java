@@ -83,6 +83,7 @@ public class ResultLiveData<T> extends AnyThreadMutableLiveData<T> {
 
     public void reset() {
         source.setOrPost(noValue);
+        dataVersion.incrementAndGet();
     }
 
     public void removeListeners() {
@@ -123,7 +124,6 @@ public class ResultLiveData<T> extends AnyThreadMutableLiveData<T> {
                 for (Observer<? super T> observer : observersSet) {
                     observer.onChanged(valuePacket.val);
                 }
-//                source.setOrPost(noValue);
                 lastObservedVersion = dataVersion.get();
             } finally {
                 observersLock.unlock();
