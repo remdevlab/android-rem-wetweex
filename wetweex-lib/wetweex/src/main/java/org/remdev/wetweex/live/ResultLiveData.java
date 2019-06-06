@@ -1,13 +1,12 @@
 package org.remdev.wetweex.live;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -31,8 +30,6 @@ public class ResultLiveData<T> extends AnyThreadMutableLiveData<T> {
         }
     };
 
-    private AtomicBoolean dataPosted = new AtomicBoolean(false);
-
     private WrappingObserver innerObserver = new WrappingObserver();
 
     @Override
@@ -41,6 +38,8 @@ public class ResultLiveData<T> extends AnyThreadMutableLiveData<T> {
             observersSet.add(observer);
             if (observersSet.size() == 1) {
                 source.observe(owner, innerObserver);
+            } else if (owner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+                innerObserver.onChanged(source.getValue());
             }
         });
     }
@@ -51,6 +50,8 @@ public class ResultLiveData<T> extends AnyThreadMutableLiveData<T> {
             observersSet.add(observer);
             if (observersSet.size() == 1) {
                 source.observeForever(innerObserver);
+            } else {
+                innerObserver.onChanged(source.getValue());
             }
         });
     }
@@ -67,25 +68,16 @@ public class ResultLiveData<T> extends AnyThreadMutableLiveData<T> {
 
     @Override
     final public void postValue(T value) {
-        if (dataPosted.compareAndSet(false, true)) {
-            source.postValue(new ValuePacket<>(value));
-        } else {
-            throw new IllegalStateException("This live data can not consume any new events as it's not reset");
-        }
+        source.postValue(new ValuePacket<>(value));
     }
 
     @Override
     final public void setValue(T value) {
-        if (dataPosted.compareAndSet(false, true)) {
-            source.setValue(new ValuePacket<>(value));
-        } else {
-            throw new IllegalStateException("This live data can not consume any new events as it's not reset");
-        }
+        source.setValue(new ValuePacket<>(value));
     }
 
     public void reset() {
         source.setOrPost(noValue);
-        dataPosted.set(false);
     }
 
     public void removeListeners() {
@@ -121,10 +113,8 @@ public class ResultLiveData<T> extends AnyThreadMutableLiveData<T> {
             }
             try {
                 observersLock.lock();
-                Iterator<Observer<? super T>> iterator = observersSet.iterator();
-                while (iterator.hasNext()) {
-                    iterator.next().onChanged(valuePacket.val);
-                    iterator.remove();
+                for (Observer<? super T> observer : observersSet) {
+                    observer.onChanged(valuePacket.val);
                 }
                 source.setOrPost(noValue);
             } finally {
