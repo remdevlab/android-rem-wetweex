@@ -30,6 +30,12 @@ public class ResultLiveData<T> extends AnyThreadMutableLiveData<T> {
             super.removeObserver(observer);
             observersSet.clear();
         }
+
+        @Override
+        public void setValue(ValuePacket<T> value) {
+            dataVersion.incrementAndGet();
+            super.setValue(value);
+        }
     };
 
     private WrappingObserver innerObserver = new WrappingObserver();
@@ -75,10 +81,7 @@ public class ResultLiveData<T> extends AnyThreadMutableLiveData<T> {
 
     @Override
     final public void setValue(T value) {
-        withLock(() -> {
-            dataVersion.incrementAndGet();
-            source.setValue(new ValuePacket<>(value));
-        });
+        source.setValue(new ValuePacket<>(value));
     }
 
     public void reset() {
